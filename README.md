@@ -1,6 +1,6 @@
 # Rvc Reverse shell
 
-A script for creating a everse shell tunnel for linux servers 
+A script for creating a reverse shell tunnel for linux servers 
 Not actual rsh that uses RCE for injecting the RSH vulnerability.
 
 ![demo image](demo.jpg)
