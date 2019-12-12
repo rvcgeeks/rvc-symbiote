@@ -79,6 +79,8 @@ And MAGIC !! you will entirely get the remote console with all above mentioned f
 
 ### Complimentary File transfer utility
 
+![demo image2](demo-ft.jpg)
+
 File transfer script (rvc-ft) however is not the actual part of this repo but 
 after some experiments using rsh and bsh we urgently felt a need for an anonymous file transfer
 to get important data from target. For that we wrote our own naive FTP over TCP in python
