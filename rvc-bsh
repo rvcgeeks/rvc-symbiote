@@ -47,25 +47,25 @@ termios.tcsetattr(0, termios.TCSADRAIN, old_sett)"
 
   install) 
     if [ $EUID -ne 0 ] ; then exit 1 ; fi  
-    cp $0 /bin/cl
+    cp $0 /bin/xb
     echo "Wants = network.target
 [Service]
-ExecStart=/bin/cl expose $2 $3
+ExecStart=/bin/xb expose $2 $3
 [Install]
-WantedBy=network-online.target" > /etc/systemd/system/cl.service
+WantedBy=network-online.target" > /etc/systemd/system/xb.service
     systemctl daemon-reload
-    systemctl enable cl
-    systemctl start cl
+    systemctl enable xb
+    systemctl start xb
     ;;
 
 
   uninstall)
     if [ $EUID -ne 0 ] ; then exit 1 ; fi 
-    systemctl stop cl
-    systemctl disable cl
+    systemctl stop xb
+    systemctl disable xb
     systemctl daemon-reload
-    rm /etc/systemd/system/cl.service
-    rm /bin/cl
+    rm /etc/systemd/system/xb.service
+    rm /bin/xb
     ;;
 
 

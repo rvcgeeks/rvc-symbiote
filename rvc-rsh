@@ -48,25 +48,25 @@ termios.tcsetattr(0, termios.TCSADRAIN, old_sett)"
 
   install) 
     if [ $EUID -ne 0 ] ; then exit 1 ; fi  
-    cp $0 /bin/cl
+    cp $0 /bin/xr
     echo "Wants = network.target
 [Service]
-ExecStart=/bin/cl expose $2 $3
+ExecStart=/bin/xr expose $2 $3
 [Install]
-WantedBy=network-online.target" > /etc/systemd/system/cl.service
+WantedBy=network-online.target" > /etc/systemd/system/xr.service
     systemctl daemon-reload
-    systemctl enable cl
-    systemctl start cl
+    systemctl enable xr
+    systemctl start xr
     ;;
 
 
   uninstall)
     if [ $EUID -ne 0 ] ; then exit 1 ; fi 
-    systemctl stop cl
-    systemctl disable cl
+    systemctl stop xr
+    systemctl disable xr
     systemctl daemon-reload
-    rm /etc/systemd/system/cl.service
-    rm /bin/cl
+    rm /etc/systemd/system/xr.service
+    rm /bin/xr
     ;;
 
 
