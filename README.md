@@ -89,13 +89,13 @@ A) Reverse transfer
 
 ![demo image2](demo-rft.jpg)
 
-1) first start rvc-ft in reciever mode 
+1) first start rvc-rft in reciever mode 
 ```
-./rvc-ft recv (reciever hostname) (port no.) (path/to/save/file/as)
+./rvc-rft recv (reciever hostname) (port no.) (path/to/save/file/as)
 ```
 2) then transmit the remote file
 ```
-./rvc-ft send (reciever hostname) (port no.) (remote/path/to/file)
+./rvc-rft send (reciever hostname) (port no.) (remote/path/to/file)
 ```
 3) have patience and DONE!! because no progress bars, etc.
 
