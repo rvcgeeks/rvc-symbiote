@@ -95,7 +95,7 @@ A) Reverse transfer
 ```
 2) then transmit the remote file
 ```
-./rvc-ft send (reciever hostname) (port no.) (path/to/file)
+./rvc-ft send (reciever hostname) (port no.) (remote/path/to/file)
 ```
 3) have patience and DONE!! because no progress bars, etc.
 
@@ -104,9 +104,9 @@ B) Bind transfer
 
 ![demo image3](demo-bft.jpg)
 
-1) first start rvc-ft in sender mode 
+1) first start rvc-bft in sender mode 
 ```
-./rvc-bft send (sender hostname) (port no.) (path/to/file)
+./rvc-bft send (sender hostname) (port no.) (remote/path/to/file)
 ```
 2) then transmit the remote file
 ```
