@@ -31,13 +31,13 @@ However this script needs some basic bash primitives in a normal linux distribut
 
 Server side:: Target side
 1) bash
-2) python (2 or 3)
+2) python3
 3) stty (for setting terminal window)
 4) systemctl service support (for installation and autostart)
 
 Client side:: Hacker side 
 1) bash
-2) python (2 or 3)
+2) python3
 3) stty (for getting hacker terminal sizes)
 4) awk interpreter and hostname utility
 
@@ -95,7 +95,7 @@ A) Reverse transfer
 ```
 2) then transmit the remote file
 ```
-./rvc-rft send (reciever hostname) (port no.) (remote/path/to/file)
+./rvc-rft send (reciever hostname) (port no.) (path/to/get/file)
 ```
 3) have patience and DONE!! because no progress bars, etc.
 
@@ -106,7 +106,7 @@ B) Bind transfer
 
 1) first start rvc-bft in sender mode 
 ```
-./rvc-bft send (sender hostname) (port no.) (remote/path/to/file)
+./rvc-bft send (sender hostname) (port no.) (path/to/get/file)
 ```
 2) then transmit the remote file
 ```
